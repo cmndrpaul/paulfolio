@@ -131,7 +131,7 @@ export default function IntroOverlay() {
       canvas.style.height = `${CANVAS_H}px`
 
       const height = t?.height ?? title.offsetHeight
-      const scale = Math.min((window.innerWidth * 0.86) / width, 2.6)
+      const scale = Math.min((window.innerWidth * 0.74) / width, 1.65)
       const w = width * scale
       const h = height * scale
       const sx = (window.innerWidth - w) / 2
