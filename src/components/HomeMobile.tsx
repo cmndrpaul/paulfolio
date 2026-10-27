@@ -66,9 +66,7 @@ export function HomeExplore() {
           <li key={t.to}>
             <Link to={t.to} className={`htile${'dark' in t && t.dark ? ' htile--dark' : ''}${'accent' in t && t.accent ? ' htile--accent' : ''}`}>
               <span className="htile__n">{t.n} {t.label}</span>
-              {'img' in t ? (
-                <img className="htile__img" src={t.img} alt="" loading="lazy" />
-              ) : 'services' in t ? (
+              {'services' in t ? (
                 <span className="htile__glyph" aria-hidden="true">
                   <span className="htile__services-icons">
                     <Code size={28} weight="duotone" />
@@ -78,7 +76,7 @@ export function HomeExplore() {
                   </span>
                 </span>
               ) : (
-                <span className="htile__glyph"><t.Icon size={52} weight="duotone" aria-hidden="true" /></span>
+                <img className="htile__img" src={t.img} alt="" loading="lazy" />
               )}
               <span className="htile__body">
                 <span className="htile__title">{t.title}</span>

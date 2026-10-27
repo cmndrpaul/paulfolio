@@ -1,10 +1,3 @@
-type PortfolioProject = {
-  id: string
-  name: string
-  image: string
-  websiteUrl: string
-}
-
 import { portfolioProjects } from '@/data/portfolio-projects'
 
 function ProjectCard({ project }: { project: (typeof portfolioProjects)[number] }) {
