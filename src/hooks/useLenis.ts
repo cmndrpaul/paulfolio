@@ -13,17 +13,16 @@ export function getScroller(): HTMLElement | null {
 }
 
 /**
- * Smooth-scroll the entire page with Lenis and feed every scroll tick to
- * GSAP ScrollTrigger so any pin / scrub animation reads the smoothed
- * position rather than the raw native scroll.
+ * Keep GSAP ScrollTrigger pointed at the shell scroller. Native wheel input
+ * remains untouched; Lenis is used for programmatic anchor navigation.
  *
  * This is the standard Lenis + GSAP integration pattern documented at
  * https://lenis.darkroom.engineering/. Without this wiring, ScrollTrigger
  * would compute progress against the pre-smoothed native scrollY and
  * pinned elements would jitter.
  *
- * Reduced-motion users skip Lenis entirely and let the browser do native
- * scrolling so nothing forces inertia on them.
+ * Reduced-motion users skip Lenis entirely so nothing forces animation on
+ * them.
  *
  * Lenis + GSAP are dynamically imported here (and in PainPoints) so the
  * ~80KB of scroll-engine JS is code-split out and NEVER fetched on touch
@@ -76,13 +75,10 @@ export function useLenis() {
 
       const lenis = new Lenis({
         ...(usesPanel && content ? { wrapper: panel, content } : {}),
-        // Shorter duration + steeper exponential easing makes the wheel feel
-        // responsive instead of heavy. 1.1s read as "the page is sluggish".
-        // 0.9s with a steeper curve still smooths native step jumps but
-        // settles fast enough that input does not feel disconnected.
+        // Keep programmatic anchor movement responsive; wheel input stays native.
         duration: 0.9,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -12 * t)),
-        smoothWheel: true,
+        smoothWheel: false,
         wheelMultiplier: 1,
         touchMultiplier: 1.5,
       })

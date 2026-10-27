@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { SealCheck, ArrowUpRight, Play, Stack, Coffee } from '@/components/slab'
+import { SealCheck, ArrowUpRight, Play, Code, Stack, PaintBrush, FilmSlate } from '@/components/slab'
 import { profile } from '@/data/profile'
+import { portfolioProjects } from '@/data/portfolio-projects'
 import ThemeButton from './ThemeButton'
 
 /**
@@ -44,12 +45,13 @@ export function HomeStats() {
   )
 }
 
+const latestProject = portfolioProjects[0]
+
 const TILES = [
-  { n: '01', label: 'Projects', to: '/projects', title: 'PLACEHOLDER - projects headline', desc: 'Tell me what to put here.', img: '/placeholders/project-1.jpg' },
-  { n: '02', label: 'Services', to: '/services', title: 'PLACEHOLDER - services headline', desc: 'Tell me what to put here.', Icon: Stack, dark: true },
-  { n: '03', label: 'Showcase', to: '/showcase', title: 'PLACEHOLDER - your flagship', desc: 'Tell me what to put here.', Icon: Coffee, dark: true, accent: true },
-  { n: '04', label: 'Testimonials', to: '/testimonials', title: 'PLACEHOLDER - testimonials headline', desc: 'Tell me what to put here.', img: '/placeholders/testimonial-1.jpg' },
-  { n: '05', label: 'About', to: '/about', title: `Hi, I'm ${profile.firstName}.`, desc: 'PLACEHOLDER - one line about you.', img: profile.avatarSrc },
+  { n: '01', label: 'Projects', to: '/projects', title: latestProject?.name ?? 'Projects', desc: 'Browse for more projects', img: latestProject?.image ?? '/placeholders/project-1.jpg' },
+  { n: '02', label: 'Services', to: '/services', title: 'Development, design, and video', desc: 'Explore all four services to find the right support for your next project.', services: true, dark: true },
+  { n: '03', label: 'Testimonials', to: '/testimonials', title: 'PLACEHOLDER - testimonials headline', desc: 'Tell me what to put here.', img: '/placeholders/testimonial-1.jpg' },
+  { n: '04', label: 'About', to: '/about', title: `Hi, I'm ${profile.firstName}.`, desc: 'Frontend developer and creator based in Cavite, Philippines.', img: profile.avatarSrc },
 ] as const
 
 export function HomeExplore() {
@@ -66,6 +68,15 @@ export function HomeExplore() {
               <span className="htile__n">{t.n} {t.label}</span>
               {'img' in t ? (
                 <img className="htile__img" src={t.img} alt="" loading="lazy" />
+              ) : 'services' in t ? (
+                <span className="htile__glyph" aria-hidden="true">
+                  <span className="htile__services-icons">
+                    <Code size={28} weight="duotone" />
+                    <Stack size={28} weight="duotone" />
+                    <PaintBrush size={28} weight="duotone" />
+                    <FilmSlate size={28} weight="duotone" />
+                  </span>
+                </span>
               ) : (
                 <span className="htile__glyph"><t.Icon size={52} weight="duotone" aria-hidden="true" /></span>
               )}

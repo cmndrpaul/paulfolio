@@ -406,6 +406,7 @@
      them into a moving target. Standard portfolio affordance. */
   animation-play-state: paused;
 }
+.tools-marquee[data-paused='true'] .tools-marquee__track { animation-play-state: paused; }
 
 .tools-marquee__item {
   display: inline-flex;

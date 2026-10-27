@@ -41,6 +41,77 @@
   color: var(--muted);
 }
 
+.pgrid--portfolio {
+  display: flex;
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
+}
+.pgrid--portfolio .pgrid__glass {
+  display: block;
+  height: auto;
+  min-height: auto;
+  padding: clamp(14px, 2vw, 26px);
+  overflow: visible;
+}
+.pgrid__cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  gap: clamp(12px, 1.5vw, 22px);
+}
+.pgrid__project {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 8px 20px -16px rgba(6, 12, 26, 0.4);
+  transition: transform var(--dur-med) var(--ease-spring), border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
+}
+.pgrid__project:hover {
+  transform: translateY(-3px);
+  border-color: var(--orange);
+  box-shadow: 0 18px 30px -20px rgba(6, 12, 26, 0.5);
+}
+.pgrid__project--static { cursor: default; }
+.pgrid__project--static:hover { transform: none; border-color: var(--line-strong); box-shadow: 0 8px 20px -16px rgba(6, 12, 26, 0.4); }
+.pgrid__project:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.pgrid__project-image {
+  display: grid;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  place-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--white);
+}
+.pgrid__project-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pgrid__project-name {
+  display: block;
+  padding: 14px 16px;
+  color: var(--navy);
+  font-size: clamp(14px, 1vw, 17px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+@media (max-width: 760px) {
+  .pgrid__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .pgrid__cards { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ---------- The glass and the cards ----------
    Home's glass panel and bento, re-used as-is. The cards are buttons here,
    so the link styling gets a button reset; the two wide cards keep their

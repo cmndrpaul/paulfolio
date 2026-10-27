@@ -264,3 +264,17 @@
      the page keeps exactly one navigation surface. */
   .nav { display: none; }
 }
+
+@media (min-width: 1100px) and (max-height: 850px) {
+  .rail { padding-top: 24px; }
+  .rail__avatar { width: clamp(112px, 17vh, 150px); }
+  .rail__name { margin-top: 14px; font-size: 20px; }
+  .rail__handle { margin-top: 3px; }
+  .rail__actions { margin-top: 12px; }
+  .rail__theme,
+  .rail__social { width: 40px; height: 40px; }
+  .rail__nav { margin-top: 16px; padding-top: 14px; }
+  .rail__nav ul { gap: 2px; }
+  .rail__link { height: clamp(40px, 5.2vh, 46px); }
+  .rail__copy { padding-top: 20px; }
+}

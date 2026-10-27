@@ -117,27 +117,20 @@
   box-shadow: inset 0 0 0 1px var(--line-strong);
 }
 
-/* ---------- Light plates inside the dark theme ----------
-   One surface is not site chrome and must not invert: the tools marquee is a
-   wall of external brand marks (several of which are near-black silhouettes,
-   invisible on a dark bar). The workflow window used to be pinned too; it now
-   carries its own dark palette in extensions.css.
-
-   Rather than rewriting every descendant rule, re-pin the palette tokens on
-   those two roots. Custom properties inherit, so everything inside them keeps
-   reading --navy / --muted / --white and resolves to the LIGHT values while the
-   rest of the page stays dark. One block instead of twenty overrides. */
+/* ---------- Tools marquee in dark mode ---------- */
 [data-theme='dark'] .tools-marquee {
-  --navy: #0B1E3F;
-  --navy-ink: #060C1A;
-  --muted: #5A6479;
-  --white: #FFFFFF;
-  --cream: #F4F4ED;
-  --paper: #FBFBF7;
-  --line: rgba(11, 30, 63, 0.14);
-  --line-strong: rgba(11, 30, 63, 0.28);
-  --divider: rgba(11, 30, 63, 0.12);
-  --tint: rgba(11, 30, 63, 0.05);
-  --tint-strong: rgba(11, 30, 63, 0.09);
-  --orange-ink: #B4490A;
+  --navy: #EDF0F6;
+  --muted: rgba(237, 240, 246, 0.68);
+  --white: #121A2A;
+  --cream: #101827;
+  --paper: #172235;
+  --line: rgba(237, 240, 246, 0.12);
+  --line-strong: rgba(237, 240, 246, 0.22);
+  --orange-ink: #FFB26B;
+  background: #101827;
+  border-color: rgba(237, 240, 246, 0.14);
+  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.8), 0 4px 20px -10px rgba(0, 0, 0, 0.45);
 }
+[data-theme='dark'] .tools-marquee__icon { background: var(--brand-color-dark, var(--brand-color)); }
+[data-theme='dark'] .tools-marquee__img--invert-dark { filter: brightness(0) invert(1); }
+[data-theme='dark'] .tools-marquee__item::after { background: rgba(237, 240, 246, 0.18); }

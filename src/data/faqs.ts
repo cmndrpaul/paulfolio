@@ -9,22 +9,22 @@ export type QA = { q: string; a: string }
 export const FAQS: QA[] = [
   {
     q: 'What do you do?',
-    a: 'PLACEHOLDER - tell me what to put here: the kinds of work you take on, and who it is usually for.',
+    a: 'I offer front-end development, full-stack development, graphic design, and video editing. I can help bring a new idea to life or improve an existing project.',
   },
   {
     q: 'How fast can you start?',
-    a: 'PLACEHOLDER - tell me what to put here: your usual lead time for small fixes vs. larger projects, and your working hours.',
+    a: 'It depends on the project scope and my current availability. Share your goals and preferred timeline, and I’ll let you know what I can take on.',
   },
   {
     q: 'How much do you charge?',
-    a: 'PLACEHOLDER - tell me what to put here: how you price (hourly, per project, retainer) and how a quote is put together.',
+    a: 'Pricing depends on the work involved, timeline, and requirements. After discussing your project, I’ll provide a quote before any work begins.',
   },
   {
     q: 'Where are you based?',
-    a: 'PLACEHOLDER - tell me what to put here: your location or timezone, and which client timezones you overlap with.',
+    a: 'I’m based in Cavite, Philippines (UTC+8), and can collaborate remotely.',
   },
   {
     q: 'What happens after I write?',
-    a: 'PLACEHOLDER - tell me what to put here: how fast you reply and what the next step looks like.',
+    a: 'Your message opens in your email app so you can review and send it. I’ll reply within one business day to discuss your goals and possible next steps.',
   },
 ]

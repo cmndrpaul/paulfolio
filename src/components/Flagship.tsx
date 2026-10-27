@@ -42,9 +42,8 @@ import {
 import type { Icon } from '@/components/slab'
 
 /**
- * Flagship - "Main build" callout. Used at the bottom of Projects and as the
- * body of the /showcase page. Showcases one product via a 5-tab carousel and
- * a horizontal marquee of user feedback.
+ * Flagship - "Main build" callout used to showcase one product via a 5-tab
+ * carousel and a horizontal marquee of user feedback.
  *
  * Architecture:
  *   - Tabs control the carousel slide. Click to switch instantly.

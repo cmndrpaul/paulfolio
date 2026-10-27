@@ -3,8 +3,8 @@ import { House, FolderOpen, EnvelopeSimple, Stack, User } from '@/components/sla
 
 /**
  * The phone navigation: a bottom tab bar with Contact as the raised action
- * in the middle. Five slots for seven routes - Showcase and Testimonials
- * are reached from Home's explore row and from the pages that cite them.
+ * in the middle. Five slots for six routes - Testimonials is also reached
+ * from Home's explore row.
  *
  * Only rendered below the shell breakpoint (App decides); from 1100px the
  * profile rail is the navigation.

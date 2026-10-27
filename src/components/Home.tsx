@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight } from '@/components/slab'
+import { ArrowUpRight, Pause, Play } from '@/components/slab'
 import { profile } from '@/data/profile'
 import ToolsMarquee from './ToolsMarquee'
 import HomeBento from './HomeBento'
@@ -31,6 +32,7 @@ export default function Home() {
   useScrollReveal()
   const phone = useIsPhone()
   const { displayName, hero } = profile
+  const [toolsPaused, setToolsPaused] = useState(false)
 
   return (
     <section className="home" aria-labelledby="home-title">
@@ -39,8 +41,9 @@ export default function Home() {
       <div className="home__head">
         <div className="home__headline">
           <h1 className="home__title" id="home-title">
+            <span className="home__line">{displayName.line1}</span>
             <span className="home__line">
-              {displayName.line1} {displayName.line2}
+              <span className="home__highlight">Built</span> to be used.
             </span>
           </h1>
 
@@ -62,10 +65,19 @@ export default function Home() {
       <div className="home__glass home__glass--tools">
         <div className="home__tools">
           <div className="home__tools-head">
-            <span className="home__tools-eyebrow">Daily drivers</span>
             <h2 className="home__tools-label">Tools I work with</h2>
+            <button
+              className="home__tools-toggle"
+              type="button"
+              aria-label={toolsPaused ? 'Resume tools animation' : 'Pause tools animation'}
+              aria-pressed={toolsPaused}
+              title={toolsPaused ? 'Resume scrolling tools' : 'Pause scrolling tools'}
+              onClick={() => setToolsPaused((paused) => !paused)}
+            >
+              {toolsPaused ? <Play size={15} weight="fill" aria-hidden="true" /> : <Pause size={15} weight="fill" aria-hidden="true" />}
+            </button>
           </div>
-          <ToolsMarquee />
+          <ToolsMarquee paused={toolsPaused} />
         </div>
       </div>
 

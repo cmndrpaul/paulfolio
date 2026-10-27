@@ -18,7 +18,7 @@
   --brands-chip-border: rgba(11, 30, 63, 0.10);   /* hairline frame on the logo medallion */
 
   /* Type */
-  --font-display: 'Poppins', system-ui, -apple-system, sans-serif;
+   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, "Segoe UI Variable Display", "Segoe UI", "Poppins", sans-serif;
   --fs-display: clamp(64px, 9vw, 128px);
   --fs-h2: clamp(32px, 4vw, 56px);
   --fs-h3: clamp(22px, 2vw, 28px);
