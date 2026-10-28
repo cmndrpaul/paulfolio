@@ -214,23 +214,31 @@
   to   { transform: translateY(-50%); }
 }
 
-/* About: three photos fanned like a hand of cards. */
-.bento__fan { display: grid; place-items: center; }
-.bento__photo {
-  grid-area: 1 / 1;
-  display: block;
-  width: clamp(72px, 5.6vw, 96px);
-  aspect-ratio: 3 / 4;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--plate);
-  box-shadow: 0 0 0 3px var(--white), 0 14px 30px -14px rgba(6, 12, 26, 0.6);
-  transform: rotate(calc((var(--i) - 1) * 9deg)) translateX(calc((var(--i) - 1) * 26px));
-  transition: transform var(--dur-slow) var(--ease-spring);
+/* About: the portrait and introduction share the media row. */
+.bento__about {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 20px);
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: clamp(8px, 1.2vh, 14px);
 }
-.bento__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
-.bento__card:hover .bento__photo {
-  transform: rotate(calc((var(--i) - 1) * 14deg)) translateX(calc((var(--i) - 1) * 34px)) translateY(-4px);
+.bento__about-image {
+  display: block;
+  flex: none;
+  width: clamp(64px, 6vw, 88px);
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  object-position: top;
+  filter: drop-shadow(0 0 9px rgba(255, 174, 66, 0.42));
+  transition: transform var(--dur-med) var(--ease-spring);
+}
+.bento__card--about:hover .bento__about-image { transform: translateY(-3px) rotate(-2deg); }
+.bento__about-copy {
+  min-width: 0;
+  color: var(--muted);
+  font-size: clamp(12px, 0.82vw, 14px);
+  line-height: 1.55;
 }
 
 /* Tools: two chip rows scrolling against each other. */
@@ -433,8 +441,7 @@
    set the card height. Cap the media instead, and let the two wide cards
    stack their media under the head - side by side they had 80px each. */
 @media (max-width: 1099px) {
-  .bento__reel, .bento__reviews, .bento__fan, .bento__chips, .bento__badge { max-height: 200px; }
-  .bento__fan { min-height: 150px; }
+  .bento__reel, .bento__reviews, .bento__chips, .bento__badge { max-height: 200px; }
   .bento__card--projects,
   .bento__card--quotes { display: flex; flex-direction: column; }
   .bento__card--projects .bento__media,

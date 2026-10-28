@@ -8,6 +8,12 @@ export type PortfolioProject = {
 // Keep this list newest-first; the Home mobile tile features the first entry.
 export const portfolioProjects: PortfolioProject[] = [
   {
+    id: 'qr-attendance',
+    name: 'QR Attendance Application: Attendance, at a scan.',
+    image: '/projects/qr-attendance.png',
+    websiteUrl: 'https://qr-attendance-eta-three.vercel.app/',
+  },
+  {
     id: 'commonplace',
     name: 'Commonplace: Discover. Share. Build Together.',
     image: '/projects/commonplace-image.jpg',

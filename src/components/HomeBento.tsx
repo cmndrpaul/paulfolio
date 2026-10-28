@@ -26,8 +26,6 @@ const OFFERS = [
   { Icon: FilmSlate, title: 'Video Editing', note: 'Polished edits for online content' },
 ] as const
 
-const PHOTOS = [profile.avatarSrc, '/avatar.svg?2', '/avatar.svg?3']
-
 function CardHead({
   Icon,
   title,
@@ -35,7 +33,7 @@ function CardHead({
 }: {
   Icon: typeof FolderOpen
   title: string
-  desc: string
+  desc?: string
 }) {
   return (
     <header className="bento__head">
@@ -45,7 +43,7 @@ function CardHead({
         </span>
         <h3 className="bento__title">{title}</h3>
       </span>
-      <p className="bento__desc">{desc}</p>
+      {desc && <p className="bento__desc">{desc}</p>}
       <ArrowUpRight size={15} weight="bold" aria-hidden="true" className="bento__arrow" />
     </header>
   )
@@ -89,15 +87,18 @@ export default function HomeBento() {
         </div>
       </section>
 
-      {/* About: a fanned stack of photos. */}
+      {/* About: a portrait beside a short introduction. */}
       <Link to="/about" className="bento__card bento__card--about">
-        <CardHead Icon={User} title="About" desc="PLACEHOLDER - one line about you." />
-        <div className="bento__media bento__fan" aria-hidden="true">
-          {PHOTOS.map((src, i) => (
-            <span key={src} className="bento__photo" style={{ ['--i' as string]: i }}>
-              <img src={src} alt="" loading="lazy" decoding="async" />
-            </span>
-          ))}
+        <CardHead Icon={User} title="About" />
+        <div className="bento__about">
+          <img
+            className="bento__about-image"
+            src={profile.avatarSrc}
+            alt={profile.hero.portraitAlt}
+            loading="lazy"
+            decoding="async"
+          />
+          <p className="bento__about-copy">{profile.hero.body}</p>
         </div>
       </Link>
 

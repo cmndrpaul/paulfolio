@@ -56,7 +56,7 @@ export const tools: Tool[] = [
   { name: 'Vercel', iconPath: 'https://cdn.simpleicons.org/vercel', glyph: 'V', invertInDark: true },
   { name: 'GitHub', iconPath: '/icons/github.svg', glyph: 'GH', color: '#18181B', darkColor: '#F0F6FC' },
   { name: 'Figma', iconPath: 'https://cdn.simpleicons.org/figma', glyph: 'F' },
-  { name: 'Kilocode AI', iconPath: 'https://cdn.simpleicons.org/kilocode', glyph: 'AI', invertInDark: true },
+  { name: 'Kilocode AI', iconPath: '/icons/kilo-code.svg', glyph: 'AI', color: '#18181B', darkColor: '#F0F6FC' },
   { name: 'Dart', iconPath: 'https://cdn.simpleicons.org/dart', glyph: 'D' },
   { name: 'Flutter', iconPath: 'https://cdn.simpleicons.org/flutter', glyph: 'FL' },
   { name: 'Android Studio', iconPath: 'https://cdn.simpleicons.org/androidstudio', glyph: 'AS' },
