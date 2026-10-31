@@ -10,36 +10,36 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     id: 'qr-attendance',
     name: 'QR Attendance Application: Attendance, at a scan.',
-    image: '/projects/qr-attendance.png',
+    image: '/projects/qr-attendance.webp',
     websiteUrl: 'https://qr-attendance-eta-three.vercel.app/',
   },
   {
     id: 'commonplace',
     name: 'Commonplace: Discover. Share. Build Together.',
-    image: '/projects/commonplace-image.jpg',
+    image: '/projects/commonplace-image.webp',
     websiteUrl: 'https://commonplace-dun-two.vercel.app/',
   },
   {
     id: 'cvsufound',
     name: "CvSUFound: Lost something on the campus? Let's Find it!",
-    image: '/projects/cvsufound-image.png',
+    image: '/projects/cvsufound-image.webp',
     websiteUrl: 'https://cvsufound.vercel.app/',
   },
   {
     id: 'portfolio',
     name: 'Portfolio: Where your journey begins.',
-    image: '/projects/portfolio-image.png',
+    image: '/projects/portfolio-image.webp',
     websiteUrl: 'https://portfolio-paulcxzczx.vercel.app/',
   },
   {
     id: 'portal',
     name: 'CvSU Naic Student Portal: An improved student portal with improved transparency.',
-    image: '/projects/portal-image.png',
+    image: '/projects/portal-image.webp',
     websiteUrl: 'https://portal-dun-one-80.vercel.app/?_vercel_share=9tjhotIIlgyJmRdsTa7NZ6hUODcM6Yq3',
   },
   {
     id: 'deped-appointment',
     name: 'DepEd Appointment Sys.: Track your employee. Know your salary.',
-    image: '/projects/loginpage-deped.png',
+    image: '/projects/loginpage-deped.webp',
   },
 ]
