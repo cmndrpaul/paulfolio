@@ -8,6 +8,18 @@ export type PortfolioProject = {
 // Keep this list newest-first; the Home mobile tile features the first entry.
 export const portfolioProjects: PortfolioProject[] = [
   {
+    id: 'cmndr-crm',
+    name: 'cmndrCRM: A personalized CRM specifically built to make my projects, and task navigations faster.',
+    image: '/projects/cmndrCRM.png',
+    websiteUrl: 'https://cmndrpaul-crm-showcase.vercel.app/',
+  },
+  {
+    id: 'smokeless-usage',
+    name: 'SmokeLess Usage: An application that tracks your daily cigarette routine.',
+    image: '/projects/smokeless-app.jpg',
+    websiteUrl: 'https://smokeless-cmndrpaul.pages.dev/#',
+  },
+  {
     id: 'qr-attendance',
     name: 'QR Attendance Application: Attendance, at a scan.',
     image: '/projects/qr-attendance.webp',
