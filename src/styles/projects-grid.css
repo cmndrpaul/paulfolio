@@ -96,6 +96,9 @@
   height: 100%;
   object-fit: contain;
 }
+:is(.pgrid__project-image, .bento__project-image) img:is([src="/projects/cmndrCRM.png"], [src="/projects/smokeless-app.jpg"]) {
+  object-fit: cover;
+}
 .pgrid__project-name {
   display: block;
   padding: 14px 16px;
