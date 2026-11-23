@@ -199,6 +199,18 @@ body { overflow-x: clip; animation: none; }
 .portfolio-hero__actions .portfolio-button { min-height: 50px; padding-inline: 20px; font-size: 1.07em; }
 .portfolio-magnetic { display: inline-flex; position: relative; }
 
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-a11y-motion='true']) .portfolio-hero__copy > * {
+    animation: hero-enter 520ms var(--ease-out) backwards;
+  }
+  :root:not([data-a11y-motion='true']) .portfolio-hero__lede { animation-delay: 70ms; }
+  :root:not([data-a11y-motion='true']) .portfolio-hero__actions { animation-delay: 140ms; }
+}
+
+@keyframes hero-enter {
+  from { opacity: .2; transform: translateY(10px); }
+}
+
 .hairline {
   position: absolute;
   z-index: -1;
