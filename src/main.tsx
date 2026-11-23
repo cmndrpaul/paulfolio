@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
 import App from './App'
 import NotFound from '@/components/NotFound'
 import { restorePrefs } from '@/lib/a11y'
+import { watchSystemTheme } from '@/lib/theme'
 
 const Privacy = lazy(() => import('@/components/Privacy'))
 const ToS = lazy(() => import('@/components/ToS'))
@@ -19,6 +20,7 @@ import './styles/portfolio.css'
 import './styles/contributions.css'
 
 restorePrefs()
+watchSystemTheme()
 
 const container = document.getElementById('root')
 if (!container) throw new Error('Root element #root not found')

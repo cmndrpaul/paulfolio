@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import ThemeGlyph from './ThemeGlyph'
 import { getTheme, toggleTheme, type Theme } from '@/lib/theme'
 
-/**
- * The theme switch for phones. The rail carries it from 1100px; below that
- * it sits in Home's profile header and floats top-right on every other page.
- */
 export default function ThemeButton({ className = '' }: { className?: string }) {
-  const [theme, setTheme] = useState<Theme>('light')
-  useEffect(() => setTheme(getTheme()), [])
+  const [theme, setTheme] = useState<Theme>(getTheme)
+  useEffect(() => {
+    const sync = () => setTheme(getTheme())
+    window.addEventListener('themechange', sync)
+    return () => window.removeEventListener('themechange', sync)
+  }, [])
   return (
     <button
       type="button"

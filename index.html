@@ -32,16 +32,14 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/cmndrpaul/paulfolio/main/public/opengraph.jpg" />
     <meta name="twitter:image:alt" content="John Paul Gonzaga, Web Developer, on a navy background with gold contours." />
 
-    <!-- Theme before first paint: no flash of the wrong palette. Default is
-         light; dark is the visitor's opt-in, persisted in localStorage. -->
+    <!-- Apply the saved theme or device preference before first paint. -->
     <script>
       (function () {
-        try {
-          document.documentElement.dataset.theme =
-            localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
-        } catch (e) {
-          document.documentElement.dataset.theme = 'light';
-        }
+        var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        var savedTheme;
+        try { savedTheme = localStorage.getItem('theme'); } catch {}
+        document.documentElement.dataset.theme =
+          savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : systemTheme;
       })();
     </script>
   </head>

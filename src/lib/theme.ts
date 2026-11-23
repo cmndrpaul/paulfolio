@@ -4,29 +4,46 @@
  * every existing rule keeps reading --cream / --navy / --white and inverts
  * with it instead of being rewritten.
  *
- * The initial value is written by an inline script in index.html so the first
- * paint is already the right palette. Default is LIGHT: this site's identity
- * is the cream contour page, dark is the opt-in.
- *
- * HeroCanvasV2 listens for the `themechange` event and eases its uDarkMix
- * uniform from it, so the shader crosses over on its own clock.
+ * index.html applies the initial preference before first paint.
  */
 export type Theme = 'light' | 'dark'
 
 const KEY = 'theme'
+let hasManualTheme = false
 
 export function getTheme(): Theme {
   return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
 }
 
-function applyTheme(theme: Theme) {
+function updateTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme
+  window.dispatchEvent(new CustomEvent<Theme>('themechange', { detail: theme }))
+}
+
+export function watchSystemTheme() {
+  const preference = window.matchMedia('(prefers-color-scheme: dark)')
+  const update = () => {
+    if (hasManualTheme) return
+    try {
+      const saved = localStorage.getItem(KEY)
+      if (saved === 'light' || saved === 'dark') return
+    } catch {
+      /* The system preference is still available when storage is blocked. */
+    }
+    updateTheme(preference.matches ? 'dark' : 'light')
+  }
+  update()
+  preference.addEventListener('change', update)
+}
+
+function applyTheme(theme: Theme) {
+  hasManualTheme = true
   try {
     localStorage.setItem(KEY, theme)
   } catch {
     /* private mode: the theme just does not persist */
   }
-  window.dispatchEvent(new CustomEvent<Theme>('themechange', { detail: theme }))
+  updateTheme(theme)
 }
 
 export type SweepOrigin = { x: number; y: number }
