@@ -3,8 +3,6 @@
  * from the AccessMenu, each written as a `data-a11y-*` attribute on <html> so
  * a11y.css can act on it, and remembered in localStorage across visits.
  *
- * `motion` also feeds App.tsx: the shader is never mounted while it is on,
- * the same path prefers-reduced-motion already takes.
  */
 export type TextSize = 'md' | 'lg' | 'xl'
 export type A11yPrefs = {

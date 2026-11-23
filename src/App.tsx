@@ -1,114 +1,147 @@
-import { lazy, Suspense, useState, useEffect, useRef } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
-import TabBar from '@/components/TabBar'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowRight, EnvelopeSimple } from '@/components/slab'
+import MagneticLink from '@/components/MagneticLink'
 import ThemeButton from '@/components/ThemeButton'
-import Rail from '@/components/Rail'
-import IntroOverlay from '@/components/IntroOverlay'
-import CursorRing from '@/components/CursorRing'
 import AccessMenu from '@/components/AccessMenu'
-import { motionReduced } from '@/lib/a11y'
-import { useLenis, SCROLLER_ID } from '@/hooks/useLenis'
-import { useIsPhone } from '@/hooks/useMediaQuery'
-import { getPerfTier, watchFrameHealth, PERF_TIER_EVENT } from '@/lib/perf'
+import Home from '@/components/Home'
+import GitHubContributions from '@/components/GitHubContributions'
+import ProjectsGrid from '@/components/ProjectsGrid'
+import ServicesGrid from '@/components/ServicesGrid'
+import AboutGrid from '@/components/AboutGrid'
+import ContactGrid from '@/components/ContactGrid'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { profile } from '@/data/profile'
 
-// Lazy-load HeroCanvas so the 118KB Three.js bundle is fetched only
-// when actually needed. Mobile + reduced-motion users skip the import
-// entirely - the .hero-canvas CSS fallback (background:var(--cream))
-// handles the visual baseline. PageSpeed showed Three.js had 76.6 KiB
-// of unused JS; not loading it at all on mobile is the cleaner fix.
-const HeroCanvas = lazy(() => import('@/components/HeroCanvasV2'))
+const navigation = [
+  ['home', 'Home'],
+  ['projects', 'Projects'],
+  ['services', 'Services'],
+  ['about', 'About'],
+  ['contact', 'Contact'],
+] as const
 
-/**
- * The shell. It owns everything that outlives a route change: the contour
- * shader, the intro, the profile rail and the one scrolling panel. Each route
- * renders its view into that panel through the Outlet.
- *
- * Home is the route that shaped the layout: it is sized to the panel box and
- * must not scroll, which is what `data-fixed` switches off. Testimonials,
- * About and Contact are built to the same budget; Projects uses the panel
- * scroller like the longer views.
- */
+const sectionIds = navigation.map(([id]) => id)
+const footerSocials = ['GitHub profile', 'LinkedIn profile', 'Facebook profile']
+  .flatMap((label) => profile.socials.filter((social) => social.label === label))
+
 export default function App() {
-  useLenis()
+  const mobileHeader = useMediaQuery('(max-width: 800px)')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [compact, setCompact] = useState(false)
+  const [activeSection, setActiveSection] = useState('home')
+  const sentinel = useRef<HTMLDivElement>(null)
+  const header = useRef<HTMLElement>(null)
+  const menuToggle = useRef<HTMLButtonElement>(null)
 
-  const { pathname } = useLocation()
-  const FIXED_ROUTES = ['/', '/testimonials', '/about', '/contact']
-  const isFixed = FIXED_ROUTES.includes(pathname)
-  // Below the shell breakpoint the rail is gone: a bottom tab bar navigates,
-  // the theme switch floats top-right on every page but Home (whose profile
-  // header carries it), and the visits widget folds into that header.
-  const phone = useIsPhone()
-  const panelRef = useRef<HTMLElement>(null)
-
-  // The panel is the scroller, so a route change has to reset it by hand -
-  // the browser only restores scroll on the document.
   useEffect(() => {
-    panelRef.current?.scrollTo({ top: 0, behavior: 'auto' })
-  }, [pathname])
-
-  // The page measures its own frame health once the intro clears and steps
-  // the design down if it cannot hold it - see lib/perf.ts. `low` is the tier
-  // where the shader itself has to go.
-  const [perfTier, setPerfTier] = useState(getPerfTier)
-  useEffect(() => {
-    const onTier = (e: Event) => setPerfTier((e as CustomEvent).detail)
-    window.addEventListener(PERF_TIER_EVENT, onTier)
-    void watchFrameHealth()
-    return () => window.removeEventListener(PERF_TIER_EVENT, onTier)
+    const marker = sentinel.current
+    if (!marker) return
+    const observer = new IntersectionObserver(([entry]) => setCompact(!entry.isIntersecting))
+    observer.observe(marker)
+    return () => observer.disconnect()
   }, [])
 
-  const [shouldLoadCanvas, setShouldLoadCanvas] = useState(false)
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const reduced =
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches || motionReduced()
-    const isMobile = window.matchMedia('(pointer: coarse) and (hover: none)').matches
-    if (reduced || isMobile) return
-    // Defer the Three.js fetch to idle time so it does not compete with
-    // initial render / LCP. Falls back to setTimeout if requestIdleCallback
-    // is unavailable (Safari).
-    const w = window as Window & {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number
-    }
-    // Wait for the load event too: the shader is decoration, and parsing
-    // Three.js during boot was the bulk of the blocking time.
-    const start = () => {
-      if (w.requestIdleCallback) {
-        w.requestIdleCallback(() => setShouldLoadCanvas(true), { timeout: 3000 })
-      } else {
-        window.setTimeout(() => setShouldLoadCanvas(true), 1500)
+    const target = document.getElementById(window.location.hash.slice(1))
+    target?.scrollIntoView({ behavior: 'instant' })
+
+    const sections = sectionIds.map((id) => document.getElementById(id)).reverse()
+    let frame = 0
+    function updateActiveSection() {
+      frame = 0
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = scrollHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollHeight)) : 0
+      header.current?.style.setProperty('--scroll-progress', String(progress))
+      if (scrollHeight > 0 && window.scrollY >= scrollHeight - 2) {
+        setActiveSection('contact')
+        return
       }
+      const threshold = (header.current?.getBoundingClientRect().bottom ?? 0) + 64
+      const section = sections.find((node) => node && node.getBoundingClientRect().top <= threshold)
+      setActiveSection(section?.id ?? 'home')
     }
-    if (document.readyState === 'complete') start()
-    else window.addEventListener('load', start, { once: true })
+    function scheduleUpdate() {
+      if (!frame) frame = requestAnimationFrame(updateActiveSection)
+    }
+    updateActiveSection()
+    window.addEventListener('scroll', scheduleUpdate, { passive: true })
+    window.addEventListener('resize', scheduleUpdate)
+    return () => {
+      window.removeEventListener('scroll', scheduleUpdate)
+      window.removeEventListener('resize', scheduleUpdate)
+      cancelAnimationFrame(frame)
+    }
   }, [])
 
   return (
-    <>
-      <IntroOverlay />
-      <CursorRing />
-      <a href={`#${SCROLLER_ID}`} className="skip-link">Skip to main content</a>
-      {shouldLoadCanvas && perfTier !== 'low' && (
-        <Suspense fallback={null}>
-          <HeroCanvas />
-        </Suspense>
-      )}
-      {phone && pathname !== '/' && <ThemeButton className="theme-btn--float" />}
-      <div className="shell">
-        <Rail />
-        <main
-          ref={panelRef}
-          id={SCROLLER_ID}
-          className="shell__panel"
-          data-fixed={isFixed ? 'true' : 'false'}
-        >
-          <Suspense fallback={null}>
-            <Outlet />
-          </Suspense>
-        </main>
-      </div>
-      {phone && <TabBar />}
+    <div className="portfolio-shell">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <div className="portfolio-scroll-marker" ref={sentinel} aria-hidden="true" />
+      <header className="portfolio-header" data-compact={compact} data-menu-open={menuOpen} ref={header}
+        onKeyDown={(event) => {
+          if (event.key !== 'Escape' || !mobileHeader || !menuOpen) return
+          setMenuOpen(false)
+          menuToggle.current?.focus()
+        }}>
+        <div className="portfolio-header__bar">
+          <a className="portfolio-brand" href="#home" aria-label={profile.name + ' home'} onClick={() => setMenuOpen(false)}>
+            <img src="/favicon.svg" alt="" width="36" height="36" />
+            <span>John Paul Gonzaga</span>
+          </a>
+          <div className="portfolio-header__menu" id="portfolio-menu" inert={mobileHeader && !menuOpen}>
+            <div className="portfolio-header__menu-body">
+              <nav className="portfolio-nav" aria-label="Main navigation">
+                {navigation.map(([id, label]) => (
+                  <a key={id} href={`#${id}`} aria-current={activeSection === id ? 'location' : undefined}
+                    onClick={() => setMenuOpen(false)}>{label}</a>
+                ))}
+                <a className="portfolio-nav__contact" href="#contact"
+                  onClick={() => setMenuOpen(false)}>Let’s Talk <ArrowRight size={15} aria-hidden="true" /></a>
+              </nav>
+            </div>
+          </div>
+          <div className="portfolio-header__actions">
+            <ThemeButton className="portfolio-theme" />
+            <MagneticLink className="portfolio-contact" href="#contact">
+              Let’s Talk <ArrowRight size={15} aria-hidden="true" />
+            </MagneticLink>
+            <button className="portfolio-menu-toggle" type="button" ref={menuToggle}
+              aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+              aria-expanded={menuOpen} aria-controls="portfolio-menu"
+              onClick={(event) => {
+                setMenuOpen(!menuOpen)
+                if (!menuOpen && event.detail === 0) {
+                  requestAnimationFrame(() => header.current?.querySelector<HTMLAnchorElement>('.portfolio-nav a')?.focus())
+                }
+              }}>
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </header>
+      <main className="portfolio-main" id="main-content" tabIndex={-1}>
+        <Home />
+        <GitHubContributions />
+        <ProjectsGrid />
+        <ServicesGrid />
+        <AboutGrid />
+        <ContactGrid />
+      </main>
+      <footer className="portfolio-footer">
+        <span>© 2025 John Paul Gonzaga</span>
+        <ul className="portfolio-footer__links" role="list" aria-label="Social and contact links">
+          {footerSocials.map(({ label, href, iconPath }) => (
+            <li key={label}>
+              <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                <img src={iconPath} alt="" width="17" height="17" />
+              </a>
+            </li>
+          ))}
+          <li><a href={`mailto:${profile.email}`} aria-label="Email"><EnvelopeSimple size={18} aria-hidden="true" /></a></li>
+        </ul>
+      </footer>
       <AccessMenu />
-    </>
+    </div>
   )
 }

@@ -17,9 +17,6 @@ export default defineConfig({
     // Permissions-Policy. Do not duplicate them in Nginx config blindly -
     // some headers (e.g. CSP) need values that differ between dev and prod.
     headers: {
-      // SAMEORIGIN (not DENY) so the Funnels + SamplePlan modals can
-      // iframe their own /funnels/*.html and /sample-automation-plan.html
-      // documents. Cross-origin framing is still blocked.
       'X-Frame-Options': 'SAMEORIGIN',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -31,12 +28,5 @@ export default defineConfig({
     target: 'es2022',
     sourcemap: false,
     cssCodeSplit: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          three: ['three'],
-        },
-      },
-    },
   },
 })

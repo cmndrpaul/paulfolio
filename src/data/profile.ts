@@ -66,7 +66,7 @@ export const profile: Profile = {
   },
   socials: [
     { label: 'Facebook profile', href: 'https://www.facebook.com/cmndr.jp/', iconPath: '/icons/facebook.svg' },
-    { label: 'GitHub profile', href: 'https://github.com/cmndrpaul', iconPath: '/icons/github.svg' },
     { label: 'LinkedIn profile', href: 'https://www.linkedin.com/in/john-paul-gonzaga-562587284/', iconPath: '/icons/linkedin.svg' },
+    { label: 'GitHub profile', href: 'https://github.com/cmndrpaul', iconPath: '/icons/github.svg' },
   ],
 }

@@ -1,0 +1,53 @@
+.contributions {
+  margin-top: clamp(24px, 5vw, 54px);
+  padding: clamp(16px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+}
+
+.contributions__header, .contributions__summary, .contributions__controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.contributions__header { justify-content: space-between; flex-wrap: wrap; margin-bottom: 20px; }
+.contributions__controls { flex-wrap: wrap; }
+.contributions__summary h2 { color: var(--muted); font-size: .86em; font-weight: 620; }
+.contributions__summary p { font-weight: 750; font-size: clamp(16px, 2vw, 22px); }
+[data-theme='dark'] .contributions__logo { filter: invert(1); }
+
+.contributions__years { display: flex; padding: 3px; gap: 2px; background: var(--tint); border-radius: var(--radius-pill); }
+.contributions__years button {
+  min-height: 36px;
+  padding: 0 clamp(8px, 1vw, 14px);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: .88em;
+  font-weight: 650;
+  cursor: pointer;
+}
+.contributions__years button:is(:hover, :focus-visible) { color: var(--navy); }
+.contributions__years button[aria-pressed='true'] { background: var(--navy); color: var(--cream); }
+.contributions__controls a { display: inline-flex; align-items: center; gap: 3px; font-size: .9em; font-weight: 650; }
+.contributions__controls a:hover { color: var(--orange-ink); }
+
+.contributions__scroll { overflow-x: auto; padding: 4px 0; }
+.contributions__grid {
+  display: grid;
+  min-width: 690px;
+  gap: 3px;
+  align-items: center;
+  grid-template-rows: 18px repeat(7, auto);
+}
+.contributions__label { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.contributions__day { aspect-ratio: 1; border-radius: 3px; background: var(--tint); }
+.contributions__day[data-level='1'] { background: color-mix(in srgb, var(--orange-ink) 32%, white); }
+.contributions__day[data-level='2'] { background: color-mix(in srgb, var(--orange-ink) 54%, white); }
+.contributions__day[data-level='3'] { background: color-mix(in srgb, var(--orange-ink) 76%, white); }
+.contributions__day[data-level='4'] { background: var(--orange-ink); }
+.contributions__legend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 10px; color: var(--muted); font-size: .78em; }
+.contributions__legend .contributions__day { width: 11px; }

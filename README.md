@@ -1,56 +1,34 @@
-# Portfolio Template
+﻿# John Paul Gonzaga
 
-A personal portfolio with a fixed profile rail, an animated contour background, a bento home screen, a 3D page carousel, and a separate app-style layout for phones. Every piece of content is a placeholder. You swap in your own.
+A single-page portfolio for web development, design, and video work. Built with React, TypeScript, and Vite.
 
-Stack: Vite 6, React 19, TypeScript, plain CSS custom properties, Three.js, GSAP, Lenis, React Router 7, Phosphor icons, Poppins.
+## Run locally
 
-## Run it
-
-```bash
-npm install
-npm run dev        # http://localhost:5173
-npm run build      # typecheck + production build to dist/
+```sh
+npm ci
+npm run dev
+npm run build
 ```
 
-## Make it yours
+Vite serves the development site at http://localhost:5173/ and writes the production build to `dist/`.
 
-Every spot that needs your content says **PLACEHOLDER** and describes what goes there. You can edit the files yourself, or open the repo in an AI coding tool and tell it what to put in each spot.
+## Update the portfolio
 
-| What | Where |
-|---|---|
-| Name, handle, photo, email, socials, Home headline | `src/data/profile.ts` (start here) |
-| Your photo | `public/avatar.svg` (or point `avatarSrc` at a `.webp`/`.png`) |
-| Page headlines and copy | the top of each page component: `ProjectsGrid`, `ServicesGrid`, `ShowcaseGrid`, `TestimonialsGrid`, `AboutGrid`, `ContactGrid` in `src/components/` |
-| Funnel pages and websites (the 3D carousel) | `src/data/funnels.ts` + HTML files in `public/funnels/` and `public/samples/` |
-| Projects, apps, side builds | `src/data/projects.ts`, `src/data/ai-stack.ts` |
-| FAQs | `src/data/faqs.ts` |
-| Tools marquee | `src/components/ToolsMarquee.tsx` (logos in `public/icons/`) |
-| Testimonial videos | `public/testimonials/`, then set `src` in `TestimonialsGrid.tsx` |
-| Contact form | `src/lib/contact.ts` (opens the visitor's email app by default; set `VITE_CONTACT_ENDPOINT` to post to your own backend) |
-| SEO, share image, favicon | `index.html`, `public/favicon.svg` |
-| Colors | `src/styles/tokens.css` |
-| Privacy / Terms | `src/components/Privacy.tsx`, `src/components/ToS.tsx` |
+| Content | File |
+| --- | --- |
+| Name, portrait, email, and social links | `src/data/profile.ts` |
+| Project cards, technologies, and links | `src/data/portfolio-projects.ts` |
+| Tool logos and categories | `src/components/ToolLogos.tsx` |
+| Theme colors | `src/styles/tokens.css` |
+| Page title and sharing metadata | `index.html` |
+| Open Graph preview and favicon | `public/opengraph.jpg`, `public/favicon.svg` |
 
-### Adding your own funnels and websites
+## GitHub contributions
 
-1. Put the page's HTML in `public/funnels/` (single pages, shown 16:9) or `public/samples/` (full websites, shown 3:4).
-2. Add an entry to `src/data/funnels.ts`.
-3. Run `node scripts/make-thumbs.mjs` to render the thumbnails. It uses the Playwright install that comes with the dev dependencies (run `npx playwright install chromium` once if needed).
+The chart starts with the checked-in data in `src/data/github-contributions.json`. The **Refresh GitHub contributions** Actions workflow updates it daily and can also be run manually. It reads the public profile calendar and uses the optional `CONTRIBUTIONS_TOKEN` Actions secret to compare the counts with GitHub's GraphQL API. The token stays in Actions.
 
-To regenerate the placeholder pages: `node scripts/make-placeholder-sites.mjs`.
-
-## Notes
-
-- The background shader measures the visitor's frame rate and steps down on slow machines (`src/lib/perf.ts`). Keep any large `backdrop-filter` blur off the layers above it, because blur over an animated canvas is the most expensive thing on the page.
-- From 1100px down, the site switches to the phone layout (`TabBar`, `HomeMobile`, `src/styles/mobile-app.css`).
-- Anything new you add above the fold on Home must join the intro hold-back list in `src/styles/boot.css`. Otherwise it shows through the intro animation.
-
-## Credits
-
-- Contour background technique inspired by the landonorris.com site by OFF+BRAND. The simplex noise is Ashima Arts / Ian McEwan (MIT).
-- Icons: [Phosphor](https://phosphoricons.com) (MIT). Tool logos in `public/icons/` are trademarks of their owners and are included as examples only.
-- Font: Poppins (SIL Open Font License).
+To refresh the snapshot locally, run `node scripts/update-github-contributions.mjs`.
 
 ## License
 
-MIT for the code. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE). Tool logos belong to their respective owners.

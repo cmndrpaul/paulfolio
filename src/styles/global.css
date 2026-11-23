@@ -18,9 +18,7 @@ html, body {
 }
 
 html {
-  /* Native smooth-scroll for anchor clicks. Touch devices skip Lenis
-     (see useLenis.ts) and fall back to this. Desktop's Lenis-driven
-     handler intercepts the click before this matters. */
+  /* Native smooth scrolling for section links. */
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
 }
@@ -71,7 +69,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--orange);
+  outline: 2px solid var(--orange-ink);
   outline-offset: 3px;
   border-radius: 4px;
 }

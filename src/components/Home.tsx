@@ -1,95 +1,70 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ArrowUpRight, Pause, Play } from '@/components/slab'
+import { useEffect, useRef } from 'react'
+import MagneticLink from '@/components/MagneticLink'
+import { ArrowUpRight } from '@/components/slab'
 import { profile } from '@/data/profile'
-import ToolsMarquee from './ToolsMarquee'
-import HomeBento from './HomeBento'
-import { HomeProfile, HomeStats, HomeExplore } from './HomeMobile'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { useIsPhone } from '@/hooks/useMediaQuery'
+import ToolLogos from '@/components/ToolLogos'
 
-/**
- * Home. One viewport, three bands, no scroll:
- *
- *   head       the display line the intro writes, then the lede
- *   tools      "Tools I work with" beside the marquee, on its own plate
- *   showcase   the bento - one card per view, see HomeBento - on its own
- *
- * The grid is `auto auto 1fr` so the showcase absorbs the slack instead of
- * pushing the panel into a scrollbar. Every other view scrolls; this one is
- * laid out to the box.
- *
- * On a phone the page becomes an app screen: a profile header where the rail
- * used to be, the proof stats under the lede, and the bento replaced by a
- * snap row of tiles (HomeMobile). The CTA leaves the head - the tab bar's
- * Contact action carries it on every screen.
- *
- * `.home__title` is also the intro's landing target: IntroOverlay measures it
- * and flies its copy into this exact rect, so the line the visitor watched
- * being written is the line that stays on the page.
- */
-export default function Home() {
-  useScrollReveal()
-  const phone = useIsPhone()
-  const { displayName, hero } = profile
-  const [toolsPaused, setToolsPaused] = useState(false)
+const contours = Array.from({ length: 29 }, (_, index) => {
+  const points = Array.from({ length: 121 }, (_, step) => {
+    const angle = step / 120 * Math.PI * 2
+    const radius = 70 + index * 5 + 20 * Math.cos(angle * 3 + index * .11)
+      + 14 * Math.sin(angle * 2 - index * .08)
+    return [260 + Math.cos(angle) * radius * 1.08, 225 + Math.sin(angle) * radius * .79]
+      .map((value) => value.toFixed(1)).join(',')
+  })
+  return 'M' + points.join('L') + 'Z'
+})
+
+function HairlineBlob() {
+  const artwork = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const node = artwork.current
+    if (!node) return
+    let visible = false
+    const update = () => {
+      node.dataset.playing = String(visible && !document.hidden)
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting
+      update()
+    })
+    observer.observe(node)
+    document.addEventListener('visibilitychange', update)
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('visibilitychange', update)
+    }
+  }, [])
 
   return (
-    <section className="home" aria-labelledby="home-title">
-      {phone && <HomeProfile />}
+    <div className="hairline" ref={artwork} aria-hidden="true">
+      <svg viewBox="-12 -12 544 474" fill="none" stroke="currentColor" strokeWidth=".8">
+        {contours.map((path) => <path key={path} d={path} />)}
+      </svg>
+    </div>
+  )
+}
 
-      <div className="home__head">
-        <div className="home__headline">
-          <h1 className="home__title" id="home-title">
-            <span className="home__line">{displayName.line1}</span>
-            <span className="home__line">
-              <span className="home__highlight">Built</span> to be used.
-            </span>
-          </h1>
-
-          {!phone && (
-            <Link className="home__cta" to="/contact">
-              Get in touch
-              <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
-            </Link>
-          )}
-        </div>
-
-        <p className="home__lede">{hero.body}</p>
-        {phone && <HomeStats />}
-      </div>
-
-      {/* Two plates, not one. The tools band and the bento are different
-          objects - a strip you read across and a grid you pick from - and one
-          shared sheet made the strip look like the bento's header. */}
-      <div className="home__glass home__glass--tools">
-        <div className="home__tools">
-          <div className="home__tools-head">
-            <h2 className="home__tools-label">Tools I work with</h2>
-            <button
-              className="home__tools-toggle"
-              type="button"
-              aria-label={toolsPaused ? 'Resume tools animation' : 'Pause tools animation'}
-              aria-pressed={toolsPaused}
-              title={toolsPaused ? 'Resume scrolling tools' : 'Pause scrolling tools'}
-              onClick={() => setToolsPaused((paused) => !paused)}
-            >
-              {toolsPaused ? <Play size={15} weight="fill" aria-hidden="true" /> : <Pause size={15} weight="fill" aria-hidden="true" />}
-            </button>
-          </div>
-          <ToolsMarquee paused={toolsPaused} />
-        </div>
-      </div>
-
-      {phone ? (
-        <HomeExplore />
-      ) : (
-        <div className="home__glass home__glass--showcase">
-          <div className="home__showcase">
-            <HomeBento />
+export default function Home() {
+  return (
+    <>
+      <section className="portfolio-hero" id="home" aria-labelledby="home-title" tabIndex={-1}>
+        <HairlineBlob />
+        <div className="portfolio-hero__copy">
+          <h1 id="home-title">Interfaces with intent.<br /><em>Built to be used.</em></h1>
+          <p className="portfolio-hero__lede">{profile.hero.body}</p>
+          <div className="portfolio-hero__actions">
+            <MagneticLink className="portfolio-button portfolio-button--accent" href="#projects">
+              Explore projects <ArrowUpRight size={16} aria-hidden="true" />
+            </MagneticLink>
+            <a className="portfolio-button" href="#services">See services</a>
           </div>
         </div>
-      )}
-    </section>
+      </section>
+      <section className="portfolio-tools" aria-label="Tools I work with">
+        <ToolLogos />
+      </section>
+    </>
   )
 }
