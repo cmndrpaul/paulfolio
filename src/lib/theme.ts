@@ -59,14 +59,15 @@ type WithViewTransition = Document & {
  * API; the origin and the required radius go to global.css as custom
  * properties. The API animates between captures of the page, so what sits
  * outside the circle holds still for the 1.2s - a crisp edge instead of
- * a live wave. Browsers without it, and reduced-motion users,
- * get the instant switch.
+ * a live wave. Mobile layouts switch instantly to keep the sticky
+ * header in the live page while the browser chrome is visible.
  */
 export function setTheme(theme: Theme, origin?: SweepOrigin) {
   const doc = document as WithViewTransition
   const root = document.documentElement
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (!doc.startViewTransition || reduce || getTheme() === theme) {
+  const mobileLayout = window.matchMedia('(max-width: 800px)').matches
+  if (!doc.startViewTransition || mobileLayout || reduce || getTheme() === theme) {
     applyTheme(theme)
     return
   }
