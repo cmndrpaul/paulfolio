@@ -1,4 +1,18 @@
 {
+  "headers": [
+    {
+      "source": "/projects/:preview(.*-\\d+\\.webp)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/grain.webp",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/:page(projects|services|about|contact|testimonials|privacy|terms|thank-you)",

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { ArrowRight, EnvelopeSimple } from '@/components/slab'
 import MagneticLink from '@/components/MagneticLink'
 import ThemeButton from '@/components/ThemeButton'
@@ -24,6 +24,19 @@ const sectionIds = navigation.map(([id]) => id)
 const footerSocials = ['GitHub profile', 'LinkedIn profile', 'Facebook profile']
   .flatMap((label) => profile.socials.filter((social) => social.label === label))
 
+const PortfolioContent = memo(function PortfolioContent() {
+  return (
+    <main className="portfolio-main" id="main-content" tabIndex={-1}>
+      <Home />
+      <GitHubContributions />
+      <ProjectsGrid />
+      <ServicesGrid />
+      <AboutGrid />
+      <ContactGrid />
+    </main>
+  )
+})
+
 export default function App() {
   const mobileHeader = useMediaQuery('(max-width: 800px)')
   const [menuOpen, setMenuOpen] = useState(false)
@@ -47,19 +60,19 @@ export default function App() {
 
     const sections = sectionIds.map((id) => document.getElementById(id)).reverse()
     let frame = 0
+    let lastProgress = 0
     function updateActiveSection() {
       frame = 0
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
       const progress = scrollHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollHeight)) : 0
-      if (scrollHeight > 0 && window.scrollY >= scrollHeight - 2) {
+      const atBottom = scrollHeight > 0 && window.scrollY >= scrollHeight - 2
+      const threshold = atBottom ? 0 : (header.current?.getBoundingClientRect().bottom ?? 0) + 64
+      const section = atBottom ? undefined : sections.find((node) => node && node.getBoundingClientRect().top <= threshold)
+      if (progress !== lastProgress) {
         header.current?.style.setProperty('--scroll-progress', String(progress))
-        setActiveSection('contact')
-        return
+        lastProgress = progress
       }
-      const threshold = (header.current?.getBoundingClientRect().bottom ?? 0) + 64
-      const section = sections.find((node) => node && node.getBoundingClientRect().top <= threshold)
-      header.current?.style.setProperty('--scroll-progress', String(progress))
-      setActiveSection(section?.id ?? 'home')
+      setActiveSection(atBottom ? 'contact' : section?.id ?? 'home')
     }
     function scheduleUpdate() {
       if (!frame) frame = requestAnimationFrame(updateActiveSection)
@@ -121,14 +134,7 @@ export default function App() {
           </div>
         </div>
       </header>
-      <main className="portfolio-main" id="main-content" tabIndex={-1}>
-        <Home />
-        <GitHubContributions />
-        <ProjectsGrid />
-        <ServicesGrid />
-        <AboutGrid />
-        <ContactGrid />
-      </main>
+      <PortfolioContent />
       <footer className="portfolio-footer">
         <span>© 2025 John Paul Gonzaga</span>
         <ul className="portfolio-footer__links" role="list" aria-label="Social and contact links">
