@@ -363,6 +363,11 @@ body { overflow-x: clip; animation: none; }
 }
 
 @media (max-width: 800px) {
+  html[data-theme-sweep] .portfolio-header { view-transition-name: portfolio-header; }
+  ::view-transition-group(portfolio-header) { z-index: 1; animation: none; }
+  ::view-transition-old(portfolio-header) { display: none; }
+  ::view-transition-new(portfolio-header) { animation: none; }
+
   html { scroll-padding-top: 74px; }
   .portfolio-about { grid-template-columns: minmax(0, 1fr); }
   .portfolio-header { --header-height: 66px; --header-compact-height: 58px; }
