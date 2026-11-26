@@ -4,7 +4,8 @@ export type PortfolioProject = {
   category: string
   description: string
   technologies: readonly string[]
-  image: string
+  imageBase: string
+  previewWidths?: readonly number[]
   previewFit?: 'contain'
   websiteUrl?: string
 }
@@ -16,7 +17,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['Astro', 'TypeScript', 'Tailwind CSS'],
     category: 'Cafe Website',
     description: 'A website for a cafe in Naic, Cavite, where guests can browse the menu and find opening hours and directions before visiting.',
-    image: '/projects/miracles-cafe.png',
+    imageBase: '/projects/miracles-cafe',
     previewFit: 'contain',
     websiteUrl: 'https://miracle-cafe-cmndrpaul.vercel.app/',
   },
@@ -26,7 +27,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['TypeScript', 'JavaScript', 'CSS', 'HTML'],
     category: 'Project management',
     description: 'A personal CRM that puts my projects and tasks in one place so I can find what needs attention quickly.',
-    image: '/projects/cmndrcrm-site.webp',
+    imageBase: '/projects/cmndrcrm-site',
     websiteUrl: 'https://cmndrpaul-crm-showcase.vercel.app/',
   },
   {
@@ -35,7 +36,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['Dart', 'Flutter', 'SQLite'],
     category: 'Habit tracking',
     description: 'A daily cigarette tracker that helps users record their smoking and see patterns in their routine.',
-    image: '/projects/smokeless-app.jpg',
+    imageBase: '/projects/smokeless-app',
     websiteUrl: 'https://smokeless-cmndrpaul.pages.dev/',
   },
   {
@@ -44,7 +45,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['Dart', 'Flutter', 'SQLite'],
     category: 'Attendance tracking',
     description: 'A QR-based attendance app that lets people check in with a scan and keeps attendance records in one place.',
-    image: '/projects/qr-attendance.webp',
+    imageBase: '/projects/qr-attendance',
     websiteUrl: 'https://qr-attendance-eta-three.vercel.app/',
   },
   {
@@ -53,7 +54,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['TypeScript', 'Next.js', 'Tailwind CSS', 'Supabase'],
     category: 'Community',
     description: 'A community platform for discovering what others are working on, sharing ideas, and building together.',
-    image: '/projects/commonplace-image.webp',
+    imageBase: '/projects/commonplace-image',
     websiteUrl: 'https://commonplace-dun-two.vercel.app/',
   },
   {
@@ -62,7 +63,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['TypeScript', 'Next.js', 'React', 'Tailwind CSS', 'Supabase'],
     category: 'Campus utility',
     description: 'A campus lost-and-found hub where students can report missing belongings and browse items others have found.',
-    image: '/projects/cvsufound-image.webp',
+    imageBase: '/projects/cvsufound-image',
     websiteUrl: 'https://cvsufound.vercel.app/',
   },
   {
@@ -71,7 +72,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['Astro', 'CSS', 'Vercel'],
     category: 'Personal website',
     description: 'A personal portfolio that brings my work, skills, and contact information together in one website.',
-    image: '/projects/portfolio-image.webp',
+    imageBase: '/projects/portfolio-image',
     websiteUrl: 'https://portfolio-paulcxzczx.vercel.app/',
   },
   {
@@ -80,7 +81,8 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['PHP', 'MySQL'],
     category: 'Education',
     description: 'A redesigned student portal that makes important campus information easier to find and understand.',
-    image: '/projects/portal-image.webp',
+    imageBase: '/projects/portal-image',
+    previewWidths: [400, 800],
     websiteUrl: 'https://portal-dun-one-80.vercel.app/?_vercel_share=9tjhotIIlgyJmRdsTa7NZ6hUODcM6Yq3',
   },
   {
@@ -89,6 +91,6 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['Laravel', 'MySQL'],
     category: 'Administration',
     description: 'An administrative interface for looking up employee appointments and related salary information.',
-    image: '/projects/loginpage-deped.webp',
+    imageBase: '/projects/loginpage-deped',
   },
 ]

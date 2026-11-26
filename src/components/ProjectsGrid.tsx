@@ -3,11 +3,19 @@ import { portfolioProjects, type PortfolioProject } from '@/data/portfolio-proje
 
 function ProjectCard({ project }: { project: PortfolioProject }) {
   const visitLabel = <>Visit <ArrowUpRight size={15} aria-hidden="true" /></>
+  const previewWidths = project.previewWidths ?? [400, 800, 1200]
 
   return (
     <article className="project-card" aria-labelledby={project.id + '-title'}>
       <div className="project-card__preview" data-fit={project.previewFit}>
-        <img src={project.image} alt="" loading="lazy" decoding="async" />
+        <img
+          src={`${project.imageBase}-800.webp`}
+          srcSet={previewWidths.map((width) => `${project.imageBase}-${width}.webp ${width}w`).join(', ')}
+          sizes="auto, (max-width: 580px) 92vw, (max-width: 950px) 45vw, min(30vw, 376px)"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
       </div>
       <div className="project-card__body">
         <p className="project-card__category">{project.category}</p>
