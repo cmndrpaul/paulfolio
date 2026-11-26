@@ -2,7 +2,6 @@ import { memo, useEffect, useRef, useState } from 'react'
 import { ArrowRight, EnvelopeSimple } from '@/components/slab'
 import MagneticLink from '@/components/MagneticLink'
 import ThemeButton from '@/components/ThemeButton'
-import AccessMenu from '@/components/AccessMenu'
 import Home from '@/components/Home'
 import GitHubContributions from '@/components/GitHubContributions'
 import ProjectsGrid from '@/components/ProjectsGrid'
@@ -148,7 +147,6 @@ export default function App() {
           <li><a href={`mailto:${profile.email}`} aria-label="Email"><EnvelopeSimple size={18} aria-hidden="true" /></a></li>
         </ul>
       </footer>
-      <AccessMenu />
     </div>
   )
 }

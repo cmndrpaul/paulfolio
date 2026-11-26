@@ -207,7 +207,7 @@ main > * {
   mix-blend-mode: normal;
 }
 html[data-theme-sweep]::view-transition-new(root) {
-  animation: theme-sweep 1200ms cubic-bezier(0.55, 0, 0.15, 1) both;
+  animation: theme-sweep 400ms cubic-bezier(0.55, 0, 0.15, 1) both;
 }
 @keyframes theme-sweep {
   from { clip-path: circle(0px at var(--sweep-x, 50%) var(--sweep-y, 50%)); }

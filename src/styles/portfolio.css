@@ -136,7 +136,6 @@ body { overflow-x: clip; animation: none; }
 
 .portfolio-main { flex: 1; min-width: 0; }
 .portfolio-main:focus:not(:focus-visible) { outline: none; }
-.portfolio-shell .a11y { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 [data-a11y-text='lg'] .portfolio-main > * { zoom: 1.12; }
 [data-a11y-text='xl'] .portfolio-main > * { zoom: 1.25; }
 [data-a11y-links='true'] .portfolio-main a { text-decoration: underline; text-underline-offset: .18em; }

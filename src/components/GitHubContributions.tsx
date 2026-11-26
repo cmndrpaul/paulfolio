@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowUpRight } from '@/components/slab'
 import snapshot from '@/data/github-contributions.json'
 
@@ -10,15 +10,23 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 const dateFormatter = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' })
 
 const ContributionGrid = memo(function ContributionGrid({ calendar }: { calendar: Calendar }) {
+  const scroller = useRef<HTMLDivElement>(null)
   const { year, days } = calendar
   const start = Date.UTC(year, 0, 1)
   const yearLength = (Date.UTC(year + 1, 0, 1) - start) / 86400000
   const offset = new Date(start).getUTCDay()
   const weeks = Math.ceil((yearLength + offset) / 7)
 
+  useLayoutEffect(() => {
+    const region = scroller.current
+    if (!region || !window.matchMedia('(max-width: 800px)').matches) return
+    const latest = region.querySelector('[data-latest-contribution-day]')
+    if (latest) region.scrollLeft += latest.getBoundingClientRect().right - region.getBoundingClientRect().right
+  }, [calendar])
+
   return (
-    <div className="contributions__scroll" tabIndex={0} role="region" aria-label={`Daily contributions in ${year}`}>
-      <div className="contributions__grid" style={{ gridTemplateColumns: `28px repeat(${weeks}, minmax(9px, 1fr))` }}>
+    <div className="contributions__scroll" ref={scroller} tabIndex={0} role="region" aria-label={`Daily contributions in ${year}`}>
+      <div className="contributions__grid" style={{ gridTemplateColumns: `28px repeat(${weeks}, var(--contribution-week-width, minmax(9px, 1fr)))` }}>
         {months.map((month, index) => {
           const dayIndex = (Date.UTC(year, index, 1) - start) / 86400000
           return <span className="contributions__label" key={month} style={{ gridColumn: 2 + Math.floor((offset + dayIndex) / 7), gridRow: 1 }}>{month}</span>
@@ -31,6 +39,7 @@ const ContributionGrid = memo(function ContributionGrid({ calendar }: { calendar
           const slot = offset + index
           return (
             <span key={index} className="contributions__day" data-level={level}
+              data-latest-contribution-day={index === days.length - 1 ? true : undefined}
               style={{ gridColumn: 2 + Math.floor(slot / 7), gridRow: 2 + slot % 7 }}
               title={date ? `${count} ${count === 1 ? 'contribution' : 'contributions'} on ${dateFormatter.format(new Date(date))}` : undefined}
               aria-hidden="true" />

@@ -51,3 +51,12 @@
 .contributions__day[data-level='4'] { background: var(--orange-ink); }
 .contributions__legend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 10px; color: var(--muted); font-size: .78em; }
 .contributions__legend .contributions__day { width: 11px; }
+
+@media (max-width: 800px) {
+  .contributions__grid {
+    --contribution-week-width: 11px;
+    width: max-content;
+    min-width: 100%;
+    row-gap: 1px;
+  }
+}
