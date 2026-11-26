@@ -58,9 +58,9 @@ export const profile: Profile = {
   ],
   // The intro types this line, then flies it into the Home headline.
   // Keep it short: two halves, 5-8 words total.
-  displayName: { line1: 'Interfaces with intent.', line2: 'Built to be used.' },
+  displayName: { line1: 'Software developer', line2: 'Available for work' },
   hero: {
-    body: 'I build thoughtful, responsive frontend experiences for people and teams who care about the details.',
+    body: 'I build web apps, dashboards, and tools that make everyday work easier.',
     portraitSrc: '/profile.jpg.png',
     portraitAlt: 'Portrait of John Paul M. Gonzaga',
   },

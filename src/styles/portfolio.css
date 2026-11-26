@@ -192,7 +192,7 @@ body { overflow-x: clip; animation: none; }
   text-wrap: balance;
 }
 .portfolio-hero h1 { font-size: clamp(43px, 7.6vw, 106px); margin-block: 20px; }
-.portfolio-hero h1 em { color: var(--orange-ink); font-style: normal; }
+.portfolio-hero h1 span { color: var(--orange-ink); }
 .portfolio-hero__lede, .portfolio-heading > p { color: var(--muted); font-size: clamp(16px, 2vw, 21px); }
 .portfolio-hero__lede { max-width: 47ch; margin-inline: auto; }
 .portfolio-hero__actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 30px; }

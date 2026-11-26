@@ -52,7 +52,7 @@ export default function Home() {
       <section className="portfolio-hero" id="home" aria-labelledby="home-title" tabIndex={-1}>
         <HairlineBlob />
         <div className="portfolio-hero__copy">
-          <h1 id="home-title">Interfaces with intent.<br /><em>Built to be used.</em></h1>
+          <h1 id="home-title">{profile.displayName.line1}<br /><span>{profile.displayName.line2}</span></h1>
           <p className="portfolio-hero__lede">{profile.hero.body}</p>
           <div className="portfolio-hero__actions">
             <MagneticLink className="portfolio-button portfolio-button--accent" href="#projects">
