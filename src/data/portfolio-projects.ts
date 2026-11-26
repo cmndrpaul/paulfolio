@@ -26,7 +26,7 @@ export const portfolioProjects: PortfolioProject[] = [
     technologies: ['TypeScript', 'JavaScript', 'CSS', 'HTML'],
     category: 'Project management',
     description: 'A personal CRM that puts my projects and tasks in one place so I can find what needs attention quickly.',
-    image: '/projects/cmndrCRM.png',
+    image: '/projects/cmndrcrm-site.webp',
     websiteUrl: 'https://cmndrpaul-crm-showcase.vercel.app/',
   },
   {
