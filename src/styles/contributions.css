@@ -44,11 +44,37 @@
   grid-template-rows: 18px repeat(7, auto);
 }
 .contributions__label { color: var(--muted); font-size: 10px; white-space: nowrap; }
-.contributions__day { aspect-ratio: 1; border-radius: 3px; background: var(--tint); }
-.contributions__day[data-level='1'] { background: color-mix(in srgb, var(--orange-ink) 32%, white); }
-.contributions__day[data-level='2'] { background: color-mix(in srgb, var(--orange-ink) 54%, white); }
-.contributions__day[data-level='3'] { background: color-mix(in srgb, var(--orange-ink) 76%, white); }
-.contributions__day[data-level='4'] { background: var(--orange-ink); }
+.contributions__day { --day-color: var(--tint); aspect-ratio: 1; border-radius: 3px; background: var(--day-color); }
+.contributions__day[data-level='1'] { --day-color: color-mix(in srgb, var(--orange-ink) 32%, white); }
+.contributions__day[data-level='2'] { --day-color: color-mix(in srgb, var(--orange-ink) 54%, white); }
+.contributions__day[data-level='3'] { --day-color: color-mix(in srgb, var(--orange-ink) 76%, white); }
+.contributions__day[data-level='4'] { --day-color: var(--orange-ink); }
+.contributions__grid .contributions__day { cursor: default; }
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .contributions__grid .contributions__day { position: relative; background: transparent; }
+  .contributions__grid .contributions__day::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--day-color);
+    pointer-events: none;
+    transition: translate 160ms var(--ease-out), scale 160ms var(--ease-out);
+  }
+  .contributions__grid .contributions__day:hover { z-index: 1; }
+  .contributions__grid .contributions__day:hover::before {
+    translate: var(--day-offset, 0 0);
+    scale: 1.16;
+    animation: contribution-wiggle 220ms ease-out;
+  }
+
+  @keyframes contribution-wiggle {
+    25% { rotate: -8deg; }
+    50% { rotate: 6deg; }
+    75% { rotate: -3deg; }
+  }
+}
 .contributions__legend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 10px; color: var(--muted); font-size: .78em; }
 .contributions__legend .contributions__day { width: 11px; }
 

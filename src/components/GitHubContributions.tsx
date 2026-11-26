@@ -1,4 +1,5 @@
 import { memo, useLayoutEffect, useRef, useState } from 'react'
+import type { PointerEvent } from 'react'
 import { ArrowUpRight } from '@/components/slab'
 import snapshot from '@/data/github-contributions.json'
 
@@ -8,6 +9,15 @@ type Calendar = { year: number; total: number; days: Day[] }
 const profileUrl = 'https://github.com/cmndrpaul'
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const dateFormatter = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' })
+
+function followPointer(event: PointerEvent<HTMLSpanElement>) {
+  if (event.pointerType !== 'mouse') return
+  const { currentTarget, clientX, clientY } = event
+  const { left, top, width, height } = currentTarget.getBoundingClientRect()
+  const x = (clientX - left - width / 2) * .35
+  const y = (clientY - top - height / 2) * .35
+  currentTarget.style.setProperty('--day-offset', `${x}px ${y}px`)
+}
 
 const ContributionGrid = memo(function ContributionGrid({ calendar }: { calendar: Calendar }) {
   const scroller = useRef<HTMLDivElement>(null)
@@ -39,6 +49,8 @@ const ContributionGrid = memo(function ContributionGrid({ calendar }: { calendar
           const slot = offset + index
           return (
             <span key={index} className="contributions__day" data-level={level}
+              onPointerMove={followPointer}
+              onPointerLeave={(event) => event.currentTarget.style.removeProperty('--day-offset')}
               data-latest-contribution-day={index === days.length - 1 ? true : undefined}
               style={{ gridColumn: 2 + Math.floor(slot / 7), gridRow: 2 + slot % 7 }}
               title={date ? `${count} ${count === 1 ? 'contribution' : 'contributions'} on ${dateFormatter.format(new Date(date))}` : undefined}

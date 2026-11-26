@@ -329,6 +329,10 @@ body { overflow-x: clip; animation: none; }
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-a11y-motion='true']) .project-card {
+    transition: border-color 180ms, box-shadow 200ms, transform 200ms var(--ease-out);
+  }
+  :root:not([data-a11y-motion='true']) .project-card:hover { transform: translateY(-3px); }
   :root:not([data-a11y-motion='true']) .project-card__preview img {
     transition: transform 240ms var(--ease-out);
   }
