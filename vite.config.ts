@@ -1,12 +1,29 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'node:path'
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'inline-entry-css',
+      apply: 'build',
+      transformIndexHtml: {
+        order: 'post',
+        handler(html, { bundle }) {
+          return html.replace(/<link rel="stylesheet"[^>]*href="\/([^"]+\.css)"[^>]*>/g, (tag, fileName: string) => {
+            const asset = bundle?.[fileName]
+            return asset?.type === 'asset' && typeof asset.source === 'string'
+              ? `<style>${asset.source.replace(/<\/style/gi, '<\\/style')}</style>`
+              : tag
+          })
+        },
+      },
+    },
+  ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   server: {

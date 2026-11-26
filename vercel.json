@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/:page(projects|services|about|contact|testimonials|privacy|terms|thank-you)",
       "destination": "/"
     }
   ]

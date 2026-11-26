@@ -4,13 +4,14 @@ body { overflow-x: clip; animation: none; }
 .portfolio-shell {
   --portfolio-width: 1180px;
   --portfolio-gutter: clamp(16px, 4vw, 48px);
-  --portfolio-grain: url('/grain.png');
+  --portfolio-grain: url('/grain.webp');
   --portfolio-accent-ink: #fff;
   --portfolio-nav-hover: rgba(11, 30, 63, .055);
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background-image: var(--portfolio-grain);
+  background-size: 128px 128px;
 }
 [data-theme='dark'] .portfolio-shell {
   --portfolio-accent-ink: var(--plate-ink);
@@ -200,7 +201,7 @@ body { overflow-x: clip; animation: none; }
 .portfolio-magnetic { display: inline-flex; position: relative; }
 
 @media (prefers-reduced-motion: no-preference) {
-  :root:not([data-a11y-motion='true']) .portfolio-hero__copy > * {
+  :root:not([data-a11y-motion='true']) .portfolio-hero__copy > :not(h1) {
     animation: hero-enter 520ms var(--ease-out) backwards;
   }
   :root:not([data-a11y-motion='true']) .portfolio-hero__lede { animation-delay: 70ms; }

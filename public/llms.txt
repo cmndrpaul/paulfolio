@@ -1,0 +1,10 @@
+# John Paul Gonzaga
+
+> Portfolio of a freelance developer and creator working in web development, graphic design, and video editing.
+
+## Portfolio
+
+- [Projects](https://paulfolio-rho.vercel.app/#projects): Web apps, interfaces, and tools.
+- [Services](https://paulfolio-rho.vercel.app/#services): Available freelance services.
+- [About](https://paulfolio-rho.vercel.app/#about): Background and experience.
+- [Contact](https://paulfolio-rho.vercel.app/#contact): Get in touch about a project.

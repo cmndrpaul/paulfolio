@@ -1,3 +1,4 @@
+import '@/styles/legal.css'
 import { ArrowLeft } from '@/components/slab'
 import { useNavigate } from 'react-router-dom'
 import { profile } from '@/data/profile'

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight } from '@/components/slab'
 import snapshot from '@/data/github-contributions.json'
 
@@ -43,27 +43,44 @@ function ContributionGrid({ calendar }: { calendar: Calendar }) {
 }
 
 export default function GitHubContributions() {
+  const section = useRef<HTMLElement>(null)
   const [data, setData] = useState(snapshot as { asOf: string; calendars: Calendar[] })
   const [year, setYear] = useState(data.calendars[0].year)
   const calendar = data.calendars.find((entry) => entry.year === year) ?? data.calendars[0]
 
   useEffect(() => {
+    const node = section.current
+    if (!node) return
+
     const controller = new AbortController()
-    void fetch(snapshotUrl, { signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok) return
-        const latest = await response.json() as typeof data
-        if (latest.asOf >= snapshot.asOf && latest.calendars?.length) {
-          setData(latest)
-          setYear((current) => current === snapshot.calendars[0].year ? latest.calendars[0].year : current)
-        }
-      })
-      .catch(() => { /* The bundled snapshot also works without a network connection. */ })
-    return () => controller.abort()
+    let refreshTimer: number | undefined
+    function refresh() {
+      void fetch(snapshotUrl, { signal: controller.signal })
+        .then(async (response) => {
+          if (!response.ok) return
+          const latest = await response.json() as typeof data
+          if (latest.asOf >= snapshot.asOf && latest.calendars?.length) {
+            setData(latest)
+            setYear((current) => current === snapshot.calendars[0].year ? latest.calendars[0].year : current)
+          }
+        })
+        .catch(() => { /* The bundled snapshot also works without a network connection. */ })
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      observer.disconnect()
+      refreshTimer = window.setTimeout(refresh, 1500)
+    })
+    observer.observe(node)
+    return () => {
+      observer.disconnect()
+      window.clearTimeout(refreshTimer)
+      controller.abort()
+    }
   }, [])
 
   return (
-    <section className="contributions" aria-labelledby="contributions-title">
+    <section className="contributions" aria-labelledby="contributions-title" ref={section}>
       <header className="contributions__header">
         <div className="contributions__summary">
           <img className="contributions__logo" src="/icons/github.svg" width="24" height="24" alt="" />

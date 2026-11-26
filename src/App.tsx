@@ -51,19 +51,20 @@ export default function App() {
       frame = 0
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
       const progress = scrollHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollHeight)) : 0
-      header.current?.style.setProperty('--scroll-progress', String(progress))
       if (scrollHeight > 0 && window.scrollY >= scrollHeight - 2) {
+        header.current?.style.setProperty('--scroll-progress', String(progress))
         setActiveSection('contact')
         return
       }
       const threshold = (header.current?.getBoundingClientRect().bottom ?? 0) + 64
       const section = sections.find((node) => node && node.getBoundingClientRect().top <= threshold)
+      header.current?.style.setProperty('--scroll-progress', String(progress))
       setActiveSection(section?.id ?? 'home')
     }
     function scheduleUpdate() {
       if (!frame) frame = requestAnimationFrame(updateActiveSection)
     }
-    updateActiveSection()
+    scheduleUpdate()
     window.addEventListener('scroll', scheduleUpdate, { passive: true })
     window.addEventListener('resize', scheduleUpdate)
     return () => {

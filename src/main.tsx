@@ -2,17 +2,16 @@ import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
 import App from './App'
-import NotFound from '@/components/NotFound'
 import { restorePrefs } from '@/lib/a11y'
 import { watchSystemTheme } from '@/lib/theme'
 
 const Privacy = lazy(() => import('@/components/Privacy'))
 const ToS = lazy(() => import('@/components/ToS'))
 const ThankYou = lazy(() => import('@/components/ThankYou'))
+const NotFound = lazy(() => import('@/components/NotFound'))
 import './styles/tokens.css'
 import './styles/global.css'
 import './styles/theme-glyph.css'
-import './styles/legal.css'
 import './styles/contact-grid.css'
 import './styles/a11y.css'
 import './styles/apple.css'
@@ -38,7 +37,7 @@ createRoot(container).render(
         <Route path="/privacy" element={<Suspense fallback={null}><Privacy /></Suspense>} />
         <Route path="/terms" element={<Suspense fallback={null}><ToS /></Suspense>} />
         <Route path="/thank-you" element={<Suspense fallback={null}><ThankYou /></Suspense>} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Suspense fallback={null}><NotFound /></Suspense>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
